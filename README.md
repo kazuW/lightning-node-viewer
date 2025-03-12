@@ -1,5 +1,6 @@
 # Lightning Node Viewer  
 Lightning Network ノードの情報を可視化し、チャンネル状態や時系列データを監視するためのツールです。  
+lightning-node-dbで保存されたデータベースを使用します(lightning-node.db)。
   
 # 機能  
 ・チャンネル一覧: ノードの全チャンネルと基本情報（容量、残高比率など）の一覧表示  
