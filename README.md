@@ -21,7 +21,7 @@ Lightning Network ノードの情報を可視化し、チャンネル状態や�
 2.依存関係のインストール  
    poetry install  
   
-使用方法  
+# 使用方法  
 設定  
   
 1.src/config.py でデータベースパスやサーバー設定を構成  
@@ -31,7 +31,7 @@ Lightning Network ノードの情報を可視化し、チャンネル状態や�
   
 2.または、ユーザー設定を data/user_config.json に保存して設定を上書き  
   
-実行  
+# 実行  
   
 基本実行  
 poetry run python src/app.py  
@@ -64,7 +64,7 @@ Webインターフェース
 ・channel_history: チャンネル状態の履歴データ  
 ・fee_settings: 手数料設定の履歴  
   
-開発  
+# 開発  
 プロジェクト構造  
   
 lightning-node-viewer/  
@@ -80,24 +80,24 @@ lightning-node-viewer/
 ├── pyproject.toml      # Poetry設定ファイル  
 └── README.md           # このファイル  
   
-新機能の追加  
+# 新機能の追加  
   
 1.新しいタブを追加するには、src/tabs/ ディレクトリに新しいPythonファイルを作成  
 2.create_xxx_tab() 関数を実装  
 3.app.py の create_app() 関数内でタブを追加  
   
-トラブルシューティング  
+# トラブルシューティング  
 データベース接続エラー  
 データベースパスが正しく設定されていることを確認してください。エラーメッセージの最初の行に表示されるパスをチェックしてください。  
   
-表示の問題  
+# 表示の問題  
 ブラウザのキャッシュをクリアするか、別のブラウザで試してみてください。  
   
-起動の問題  
+# 起動の問題  
 Poetry環境が正しく設定されているか確認：  
    poetry env info  
   
-ライセンス  
+# ライセンス  
 このプロジェクトはMITライセンスの下で公開されています。詳細はLICENSEファイルを参照してください。  
 © 2025 Lightning Node Viewer Contributors  
   
