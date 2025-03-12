@@ -1,0 +1,5 @@
+gradio
+sqlite3
+pandas
+matplotlib
+plotly
