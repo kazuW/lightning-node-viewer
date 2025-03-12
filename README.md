@@ -1,13 +1,13 @@
-Lightning Node Viewer  
+# Lightning Node Viewer  
 Lightning Network ノードの情報を可視化し、チャンネル状態や時系列データを監視するためのツールです。  
   
-機能  
+# 機能  
 ・チャンネル一覧: ノードの全チャンネルと基本情報（容量、残高比率など）の一覧表示  
 ・時系列データ分析: チャンネルのバランス推移、手数料率の変化などを時系列グラフで可視化  
 ・カスタム設定: ポートやデータベースパスなどを簡単に設定可能  
 ・自動更新: ノード情報の定期的な更新とデータ分析  
   
-インストール  
+# インストール  
 前提条件  
 ・Python 3.11.3  
 ・Poetry（Pythonパッケージ管理ツール）  
@@ -33,13 +33,13 @@ Lightning Network ノードの情報を可視化し、チャンネル状態や�
   
 実行  
   
-# 基本実行  
+基本実行  
 poetry run python src/app.py  
   
-# カスタムポートで実行  
+カスタムポートで実行  
 poetry run python src/app.py --port 8080  
   
-# デバッグモードで実行  
+デバッグモードで実行  
 poetry run python src/app.py --debug  
   
 Webインターフェース  
