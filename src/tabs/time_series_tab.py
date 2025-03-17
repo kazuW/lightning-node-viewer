@@ -80,7 +80,8 @@ def get_time_series_data(channel_id, period="1week"):
         remote_fee,
         remote_infee,
         num_updates,
-        amboss_fee
+        amboss_fee,
+        active
     FROM 
         channel_datas
     WHERE 
@@ -113,7 +114,7 @@ def get_time_series_data(channel_id, period="1week"):
     # データの前処理 - 数値カラムの型変換を確実に行う
     numeric_cols = ['local_balance', 'local_fee', 'local_infee', 
                     'remote_balance', 'remote_fee', 'remote_infee',
-                    'num_updates', 'amboss_fee']
+                    'num_updates', 'amboss_fee', 'active']
     
     for col in numeric_cols:
         if col in df.columns:
@@ -311,6 +312,7 @@ def create_time_series_tab(db_path='data/lightning_node.db'):
             remote_fee_chart = gr.Plot(label="リモート手数料率推移")
             remote_infee_chart = gr.Plot(label="リモート入金手数料推移")
             amboss_chart = gr.Plot(label="Amboss手数料推移")
+            active_chart = gr.Plot(label="チャンネル状態推移")  # アクティブステータス追加
         
         # データテーブル表示エリア
         #with gr.Accordion("ローカル残高比率の時系列データ", open=False):
@@ -324,14 +326,14 @@ def create_time_series_tab(db_path='data/lightning_node.db'):
         def update_charts(channel_name, period):
             if not channel_name:
                 return None, None, None, None, None, None, None
-                
+            
             channel_info = get_channel_info(channel_name, db_path)
             channel_id = channel_info["id"]
             capacity = channel_info["capacity"]
             
             if not channel_id:
                 return None, None, None, None, None, None, None
-                
+            
             # 時系列データを取得
             df = get_time_series_data(channel_id, period)
             
@@ -351,7 +353,7 @@ def create_time_series_tab(db_path='data/lightning_node.db'):
             # 数値カラムを明示的に浮動小数点型に変換
             numeric_cols = ['local_balance', 'local_fee', 'local_infee', 
                            'remote_balance', 'remote_fee', 'remote_infee',
-                           'num_updates', 'amboss_fee']
+                           'num_updates', 'amboss_fee', 'active']
             
             for col in numeric_cols:
                 if col in df.columns:
@@ -389,27 +391,28 @@ def create_time_series_tab(db_path='data/lightning_node.db'):
             remote_fee_fig = create_custom_plot(df, "date", "remote_fee", "リモート手数料率推移", "手数料率 (ppm)", 'purple')
             remote_infee_fig = create_custom_plot(df, "date", "remote_infee", "リモート入金手数料推移", "入金手数料 (sat)", 'orange', allow_negative=True)
             amboss_fig = create_custom_plot(df, "date", "amboss_fee", "Amboss手数料推移", "手数料 (sat)", 'teal')
+            active_fig = create_custom_plot(df, "date", "active", "チャンネル状態推移", "状態 (0=無効, 1=有効)", 'darkblue')
             
-            return balance_ratio_fig, local_fee_fig, local_infee_fig, remote_fee_fig, remote_infee_fig, amboss_fig
+            return balance_ratio_fig, local_fee_fig, local_infee_fig, remote_fee_fig, remote_infee_fig, amboss_fig, active_fig
         
         # ボタンクリック時のイベント
         update_btn.click(
             fn=update_charts,
             inputs=[channel_dropdown, period_radio],
-            outputs=[balance_ratio_chart, local_fee_chart, local_infee_chart, remote_fee_chart, remote_infee_chart, amboss_chart]
+            outputs=[balance_ratio_chart, local_fee_chart, local_infee_chart, remote_fee_chart, remote_infee_chart, amboss_chart, active_chart]
         )
-        
+
         # ドロップダウンまたは期間変更時に自動更新
         channel_dropdown.change(
             fn=update_charts,
             inputs=[channel_dropdown, period_radio],
-            outputs=[balance_ratio_chart, local_fee_chart, local_infee_chart, remote_fee_chart, remote_infee_chart, amboss_chart]
+            outputs=[balance_ratio_chart, local_fee_chart, local_infee_chart, remote_fee_chart, remote_infee_chart, amboss_chart, active_chart]
         )
-        
+
         period_radio.change(
             fn=update_charts,
             inputs=[channel_dropdown, period_radio],
-            outputs=[balance_ratio_chart, local_fee_chart, local_infee_chart, remote_fee_chart, remote_infee_chart, amboss_chart]
+            outputs=[balance_ratio_chart, local_fee_chart, local_infee_chart, remote_fee_chart, remote_infee_chart, amboss_chart, active_chart]
         )
         
         # チャンネル選択時に容量を更新

@@ -24,7 +24,8 @@ def get_latest_node_info():
         cd.remote_fee,
         cd.remote_infee,
         cd.num_updates,
-        cd.amboss_fee
+        cd.amboss_fee,
+        cd.active
     FROM 
         channel_lists cl
     LEFT JOIN 
@@ -43,13 +44,13 @@ def get_latest_node_info():
         "チャンネル名", "チャンネルID", "容量", "最終更新日",
         "ﾛｰｶﾙ残高", "ﾛｰｶﾙ手数料", "ﾛｰｶﾙ入金手数料",
         "ﾘﾓｰﾄ残高", "ﾘﾓｰﾄ手数料", "ﾘﾓｰﾄ入金手数料",
-        "更新回数", "Amboss手数料"
+        "更新回数", "Amboss手数料", "NodeActive"
     ]
     
     # NULL値を0に置換（数値カラムのみ）
     numeric_cols = ["ﾛｰｶﾙ残高", "ﾛｰｶﾙ手数料", "ﾛｰｶﾙ入金手数料",
                     "ﾘﾓｰﾄ残高", "ﾘﾓｰﾄ手数料", "ﾘﾓｰﾄ入金手数料",
-                    "更新回数", "Amboss手数料"]
+                    "更新回数", "Amboss手数料", "NodeActive"]
     df[numeric_cols] = df[numeric_cols].fillna(0)
     
     # ローカル残高比率を計算して追加 (%)
@@ -60,7 +61,7 @@ def get_latest_node_info():
         "チャンネル名", "チャンネルID", "容量", "最終更新日",
         "ﾛｰｶﾙ残高", "ﾛｰｶﾙ残高比率", "ﾛｰｶﾙ手数料", "ﾛｰｶﾙ入金手数料",
         "ﾘﾓｰﾄ残高", "ﾘﾓｰﾄ手数料", "ﾘﾓｰﾄ入金手数料",
-        "更新回数", "Amboss手数料"
+        "更新回数", "Amboss手数料", "NodeActive"
     ]
     df = df[column_order]
     
@@ -85,11 +86,11 @@ def create_node_info_tab(db_path='data/lightning_node.db'):
             "チャンネル名", "チャンネルID", "容量", "最終更新日",
             "ﾛｰｶﾙ残高", "ﾛｰｶﾙ残高比率", "ﾛｰｶﾙ手数料", "ﾛｰｶﾙ入金手数料",
             "ﾘﾓｰﾄ残高", "ﾘﾓｰﾄ手数料", "ﾘﾓｰﾄ入金手数料",
-            "更新回数", "Amboss手数料"
+            "更新回数", "Amboss手数料", "NodeActive"
         ]
         
         # デフォルトで表示する列
-        default_columns = ["チャンネル名", "容量", "ﾛｰｶﾙ残高比率", "ﾛｰｶﾙ手数料", "ﾛｰｶﾙ入金手数料", "ﾘﾓｰﾄ手数料", "ﾘﾓｰﾄ入金手数料", "更新回数", "Amboss手数料"]
+        default_columns = ["チャンネル名", "容量", "ﾛｰｶﾙ残高比率", "ﾛｰｶﾙ手数料", "ﾛｰｶﾙ入金手数料", "ﾘﾓｰﾄ手数料", "ﾘﾓｰﾄ入金手数料", "更新回数", "Amboss手数料", "NodeActive"]
         
         # データフィルタリング関数 - 修正版
         def filter_data(df, selected_columns):
