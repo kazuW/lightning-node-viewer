@@ -16,33 +16,45 @@ lightning-node-dbで保存されたデータベースを使用します(lightnin
 インストール手順  
   
 1.リポジトリをクローン  
-   git clone https://github.com/yourusername/lightning-node-viewer.git  
-   cd lightning-node-viewer  
+  ```
+  git clone https://github.com/yourusername/lightning-node-viewer.git  
+  cd lightning-node-viewer
+  ```  
   
 2.依存関係のインストール  
-   poetry install  
+  ```
+  poetry install
+  ```  
   
 # 使用方法  
 設定  
   
 1.src/config.py でデータベースパスやサーバー設定を構成  
-   DATABASE_CONFIG = {  
+  ```
+  DATABASE_CONFIG = {  
       'path': 'path/to/your/database.db',  # SQLiteデータベースのパス  
-   }  
+  }
+  ```  
   
 2.または、ユーザー設定を data/user_config.json に保存して設定を上書き  
   
 # 実行  
   
 基本実行  
-poetry run python src/app.py  
+  ```
+  poetry run python src/app.py
+  ```  
   
 カスタムポートで実行  
-poetry run python src/app.py --port 8080  
-  
+  ```
+  poetry run python src/app.py --port 8080  
+  ```
+
 デバッグモードで実行  
-poetry run python src/app.py --debug  
-  
+  ```
+  poetry run python src/app.py --debug  
+  ```
+
 Webインターフェース  
 アプリケーションが起動すると、デフォルトで http://127.0.0.1:7861 でアクセス可能になります。  
   
